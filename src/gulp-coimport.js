@@ -28,7 +28,13 @@ var OnlineFile = {
     isAllLoaded: function() {
         return this.length === this.loadedLength;
     },
-
+    isRestore: function(key) {
+        return !!this.get(key);
+    }
+    resetCount: function() {
+        OnlineFile.length = 0;
+        OnlineFile.loadedLength = 0;
+    },
     /**
      * 获取线上的文件
      * @param  {String}   url      线上文件地址
@@ -98,7 +104,10 @@ var _ = {
     }
 };
 
-var CssConcat = (function() {
+// 不能使用静态类，多文件操作时，会共用内部的pathCacheList和cssText;
+var CssConcat = function() {
+    // 初始化时，将OnlineFile的计数器归零，获取的内容可保留，防止多次下载相同文件
+    OnlineFile.resetCount();
     // 成功后的回调函数
     var successCallback,
         pathCacheList = [],
@@ -144,7 +153,9 @@ var CssConcat = (function() {
                         successCallback(null, error);
                         return ;
                     }
-                    OnlineFile.restore(key, text);
+                    if(OnlineFile.isRestore(key) === false) {
+                        OnlineFile.restore(key, text);
+                    }
                     check();
                 });
                 return a;
@@ -216,7 +227,7 @@ var CssConcat = (function() {
         concatByFile: startByFile,
         concatByStr: startByStr
     }
-})();
+};
 
 
 
@@ -235,7 +246,7 @@ module.exports = function() {
         if (file.isBuffer()) {
             var cssText = String(file.contents);
             var srcPath = String(file.path);
-            CssConcat.concatByStr(cssText, srcPath, function(concatText, error) {
+            new CssConcat().concatByStr(cssText, srcPath, function(concatText, error) {
                 if(error) {
                     self.emit('error', error);
                 } else {

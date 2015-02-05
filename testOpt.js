@@ -1,4 +1,4 @@
 module.exports = {
-	srcPath: 'test/css/a.css',
+	srcPath: 'test/css/*.css',
 	distPath: 'test/dist'
 }
