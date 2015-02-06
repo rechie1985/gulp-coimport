@@ -147,18 +147,24 @@ var CssConcat = function() {
         cssText = cssText.replace(/@import\s*"([^"]+)"\s*;/g, function(a, b) {
             // online?
             if (/^http/i.test(b)) {
-                // 在线文件，先从线上拉取下来缓存，最后阶段再替换
-                OnlineFile.load(b, function(key, text, error) {
-                    if(error) {
-                        successCallback(null, error);
-                        return ;
-                    }
-                    if(OnlineFile.isRestore(key) === false) {
+                if(OnlineFile.isRestore(b) === false) {
+                    console.log('load: ' , b)
+                    // 在线文件，先从线上拉取下来缓存，最后阶段再替换
+                    OnlineFile.load(b, function(key, text, error) {
+                        if(error) {
+                            console.log(error)
+                            successCallback(null, error);
+                            return ;
+                        }
                         OnlineFile.restore(key, text);
-                    }
-                    check();
-                });
-                return a;
+                        check();
+                    });
+                    return;
+                } else {
+                    console.log('loaded: ' , b)
+                    return OnlineFile.get(b);
+                }
+                
             }
             // 拼接成相对目录
             var innerPath = path.resolve(dirname, b);
