@@ -30,7 +30,7 @@ var OnlineFile = {
     },
     isRestore: function(key) {
         return !!this.get(key);
-    }
+    },
     resetCount: function() {
         OnlineFile.length = 0;
         OnlineFile.loadedLength = 0;
