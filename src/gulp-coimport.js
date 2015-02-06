@@ -148,20 +148,17 @@ var CssConcat = function() {
             // online?
             if (/^http/i.test(b)) {
                 if(OnlineFile.isRestore(b) === false) {
-                    console.log('load: ' , b)
                     // 在线文件，先从线上拉取下来缓存，最后阶段再替换
                     OnlineFile.load(b, function(key, text, error) {
                         if(error) {
-                            console.log(error)
                             successCallback(null, error);
                             return ;
                         }
                         OnlineFile.restore(key, text);
                         check();
                     });
-                    return;
+                    return a;
                 } else {
-                    console.log('loaded: ' , b)
                     return OnlineFile.get(b);
                 }
                 
