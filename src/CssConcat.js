@@ -86,12 +86,12 @@ var OnlineFile = {
                     error = new Error('load online file ' + url + ' error: STATUS:' + res.statusCode);
                 }
                 if (typeof callback === 'function') {
-                    callback(url, body, error);
+                    callback(error, url, body);
                 }
             });
         }).on('error', function(e) {
             console.log("OnlineFile.load " + url + " Error:" + e.message);
-            callback(null, null, e);
+            callback(e, null, null);
         });
     }
 }
@@ -103,8 +103,7 @@ var CssConcat = function() {
     OnlineFile.resetCount();
     var _timeId = null;
     // 成功后的回调函数
-    var successCallback,
-        pathCacheList = [],
+    var pathCacheList = [],
         cssText = '';
     /**
      * 获取文件的内容，如有@import会递归
@@ -143,7 +142,7 @@ var CssConcat = function() {
             if (/^http/i.test(b)) {
                 if(OnlineFile.isRestore(b) === false) {
                     // 在线文件，先从线上拉取下来缓存，最后阶段再替换
-                    OnlineFile.load(b, function(key, text, error) {
+                    OnlineFile.load(b, function(error, key, text) {
                         if(error) {
                             throw error;
                         }
@@ -210,7 +209,7 @@ var CssConcat = function() {
         if (OnlineFile.isAllLoaded()) {
             cssText = replaceOnlineFile(cssText);
             if(typeof callback === 'function') {
-                callback(cssText);
+                callback(null, cssText);
             }
             clearInterval(_timeId);
             _timeId = null;
