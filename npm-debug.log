@@ -1,0 +1,103 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\tools\\nodeJs\\\\node.exe',
+1 verbose cli   'D:\\tools\\nodeJs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose node symlink D:\tools\nodeJs\\node.exe
+5 verbose publish [ '.' ]
+6 verbose cache add [ '.', null ]
+7 verbose cache add name=undefined spec="." args=[".",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: '.',
+8 verbose parsed url   path: '.',
+8 verbose parsed url   href: '.' }
+9 silly lockFile 3a52ce78- .
+10 verbose lock . D:\tools\npm-cache\3a52ce78-.lock
+11 verbose tar pack [ 'D:\\tools\\npm-cache\\concat-css\\1.0.0\\package.tgz', '.' ]
+12 verbose tarball D:\tools\npm-cache\concat-css\1.0.0\package.tgz
+13 verbose folder .
+14 info prepublish concat-css@1.0.0
+15 silly lockFile 1f1177db-tar tar://.
+16 verbose lock tar://. D:\tools\npm-cache\1f1177db-tar.lock
+17 silly lockFile 32832362-che-concat-css-1-0-0-package-tgz tar://D:\tools\npm-cache\concat-css\1.0.0\package.tgz
+18 verbose lock tar://D:\tools\npm-cache\concat-css\1.0.0\package.tgz D:\tools\npm-cache\32832362-che-concat-css-1-0-0-package-tgz.lock
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 1f1177db-tar tar://.
+21 silly lockFile 32832362-che-concat-css-1-0-0-package-tgz tar://D:\tools\npm-cache\concat-css\1.0.0\package.tgz
+22 silly lockFile 32832362-che-concat-css-1-0-0-package-tgz tar://D:\tools\npm-cache\concat-css\1.0.0\package.tgz
+23 silly lockFile d9971733-m-cache-concat-css-1-0-0-package D:\tools\npm-cache\concat-css\1.0.0\package
+24 verbose lock D:\tools\npm-cache\concat-css\1.0.0\package D:\tools\npm-cache\d9971733-m-cache-concat-css-1-0-0-package.lock
+25 silly lockFile d9971733-m-cache-concat-css-1-0-0-package D:\tools\npm-cache\concat-css\1.0.0\package
+26 silly lockFile d9971733-m-cache-concat-css-1-0-0-package D:\tools\npm-cache\concat-css\1.0.0\package
+27 silly lockFile 3a52ce78- .
+28 silly lockFile 3a52ce78- .
+29 silly publish { name: 'concat-css',
+29 silly publish   version: '1.0.0',
+29 silly publish   description: '> 处理css文件中 @import。递归处理css文件中的@import，自动合并为一个css文件。',
+29 silly publish   main: 'index.js',
+29 silly publish   keywords: [ 'gulpplugin' ],
+29 silly publish   scripts: { test: 'mocha test.js' },
+29 silly publish   author: { name: 'rechie' },
+29 silly publish   license: 'MIT',
+29 silly publish   devDependencies: { 'gulp-util': '^3.0.3', through2: '^0.6.3' },
+29 silly publish   readme: '\r\n> 处理css文件中 @import。递归处理css文件中的@import，自动合并为一个css文件。\r\n\r\n## Features ##\r\n- 支持 css样式文件\r\n- 支持 @import 递归处理\r\n- 支持线上的import url 自动下载再合并\r\n\r\n## Usage ##\r\n    var gulp = require(\'gulp\');\r\n    var coimport = require(\'./index\');\r\n    var conf = require(\'./testOpt\');\r\n    gulp.task(\'css\', function() {\r\n    gulp.src(conf.srcPath)\r\n    \t.pipe(coimport())\r\n    \t.pipe(gulp.dest(conf.distPath))\r\n    });\r\n    \r\n    gulp.task(\'default\', [\'css\']);\r\n\r\n\r\n## License ##\r\nMIT\r\n\r\n## 参考 ##\r\nhttps://www.npmjs.com/package/coimport',
+29 silly publish   readmeFilename: 'ReadMe.md',
+29 silly publish   gitHead: '555dbc6b64b8c3ab8166db32bbcaa85e2793a6e2',
+29 silly publish   _id: 'concat-css@1.0.0',
+29 silly publish   _shasum: '1b03d69d22ea3f5c75091847e7966eef62adaa14',
+29 silly publish   _from: '.' }
+30 verbose request where is /concat-css
+31 verbose request registry https://registry.npmjs.org/
+32 verbose request id c4db3dfab1454bc6
+33 verbose url raw /concat-css
+34 verbose url resolving [ 'https://registry.npmjs.org/', './concat-css' ]
+35 verbose url resolved https://registry.npmjs.org/concat-css
+36 verbose request where is https://registry.npmjs.org/concat-css
+37 info trying registry request attempt 1 at 15:30:25
+38 http PUT https://registry.npmjs.org/concat-css
+39 http 403 https://registry.npmjs.org/concat-css
+40 verbose headers { date: 'Mon, 09 Feb 2015 07:30:10 GMT',
+40 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+40 verbose headers   'content-type': 'application/json',
+40 verbose headers   'cache-control': 'max-age=60',
+40 verbose headers   'content-length': '2783',
+40 verbose headers   'accept-ranges': 'bytes',
+40 verbose headers   via: '1.1 varnish',
+40 verbose headers   'x-served-by': 'cache-ty67-TYO',
+40 verbose headers   'x-cache': 'MISS',
+40 verbose headers   'x-cache-hits': '0',
+40 verbose headers   'x-timer': 'S1423467010.419046,VS0,VE255',
+40 verbose headers   'keep-alive': 'timeout=10, max=50',
+40 verbose headers   connection: 'Keep-Alive' }
+41 error publish Failed PUT 403
+42 error Error: forbidden cannot modify pre-existing version: 1.0.0
+42 error old={"name":"concat-css","version":"1.0.0","description":"> 处理css文件中 @import。递归处理css文件中的@import，自动合并为一个css文件。","main":"index.js","keywords":["gulpplugin"],"scripts":{"test":"mocha test.js"},"author":{"name":"rechie"},"license":"MIT","devDependencies":{"gulp-util":"^3.0.3","through2":"^0.6.3"},"gitHead":"555dbc6b64b8c3ab8166db32bbcaa85e2793a6e2","_id":"concat-css@1.0.0","_shasum":"1b03d69d22ea3f5c75091847e7966eef62adaa14","_from":".","_npmVersion":"1.4.28","_npmUser":{"name":"rechie1985","email":"lsl1276@gmail.com"},"maintainers":[{"name":"rechie1985","email":"lsl1276@gmail.com"}],"dist":{"shasum":"1b03d69d22ea3f5c75091847e7966eef62adaa14","tarball":"http://registry.npmjs.org/concat-css/-/concat-css-1.0.0.tgz"}}
+42 error new={"name":"concat-css","version":"1.0.0","description":"> 处理css文件中 @import。递归处理css文件中的@import，自动合并为一个css文件。","main":"index.js","keywords":["gulpplugin"],"scripts":{"test":"mocha test.js"},"author":{"name":"rechie"},"license":"MIT","devDependencies":{"gulp-util":"^3.0.3","through2":"^0.6.3"},"readme":"\u000d\u000a> 处理css文件中 @import。递归处理css文件中的@import，自动合并为一个css文件。\u000d\u000a\u000d\u000a## Features ##\u000d\u000a- 支持 css样式文件\u000d\u000a- 支持 @import 递归处理\u000d\u000a- 支持线上的import url 自动下载再合并\u000d\u000a\u000d\u000a## Usage ##\u000d\u000a    var gulp = require('gulp');\u000d\u000a    var coimport = require('./index');\u000d\u000a    var conf = require('./testOpt');\u000d\u000a    gulp.task('css', function() {\u000d\u000a    gulp.src(conf.srcPath)\u000d\u000a    \u0009.pipe(coimport())\u000d\u000a    \u0009.pipe(gulp.dest(conf.distPath))\u000d\u000a    });\u000d\u000a    \u000d\u000a    gulp.task('default', ['css']);\u000d\u000a\u000d\u000a\u000d\u000a## License ##\u000d\u000aMIT\u000d\u000a\u000d\u000a## 参考 ##\u000d\u000ahttps://www.npmjs.com/package/coimport","readmeFilename":"ReadMe.md","gitHead":"555dbc6b64b8c3ab8166db32bbcaa85e2793a6e2","_id":"concat-css@1.0.0","_shasum":"1b03d69d22ea3f5c75091847e7966eef62adaa14","_from":".","_npmVersion":"1.4.28","_npmUser":{"name":"rechie1985","email":"lsl1276@gmail.com"},"maintainers":[{"name":"rechie1985","email":"lsl1276@gmail.com"}],"dist":{"shasum":"1b03d69d22ea3f5c75091847e7966eef62adaa14","tarball":"http://registry.npmjs.org/concat-css/-/concat-css-1.0.0.tgz"}}: concat-css
+42 error     at RegClient.<anonymous> (D:\tools\nodeJs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:308:14)
+42 error     at Request._callback (D:\tools\nodeJs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:246:65)
+42 error     at Request.self.callback (D:\tools\nodeJs\node_modules\npm\node_modules\request\request.js:236:22)
+42 error     at Request.emit (events.js:98:17)
+42 error     at Request.<anonymous> (D:\tools\nodeJs\node_modules\npm\node_modules\request\request.js:1142:14)
+42 error     at Request.emit (events.js:117:20)
+42 error     at IncomingMessage.<anonymous> (D:\tools\nodeJs\node_modules\npm\node_modules\request\request.js:1096:12)
+42 error     at IncomingMessage.emit (events.js:117:20)
+42 error     at _stream_readable.js:944:16
+42 error     at process._tickCallback (node.js:442:13)
+43 error If you need help, you may report this *entire* log,
+43 error including the npm and node versions, at:
+43 error     <http://github.com/npm/npm/issues>
+44 error System Windows_NT 6.1.7601
+45 error command "D:\\tools\\nodeJs\\\\node.exe" "D:\\tools\\nodeJs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+46 error cwd F:\github-work\gulp-coimport
+47 error node -v v0.10.35
+48 error npm -v 1.4.28
+49 verbose exit [ 1, true ]

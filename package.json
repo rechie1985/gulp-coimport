@@ -1,16 +1,29 @@
 {
-  "name": "concat-css",
-  "version": "1.0.0",
+  "name": "gulp-coimport",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "keywords": [
     "gulpplugin"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rechie1985/gulp-coimport/"
+  },
   "scripts": {
     "test": "mocha test.js"
   },
   "author": "rechie",
+
+  "author": {
+    "name": "rechie",
+    "email": "lsl1276@gmail.com"
+  },
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rechie1985/gulp-coimport/issues"
+  },
+  "homepage": "https://github.com/rechie1985/gulp-coimport/",
   "devDependencies": {
     "gulp-util": "^3.0.3",
     "through2": "^0.6.3"
