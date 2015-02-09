@@ -23,9 +23,9 @@ module.exports = function() {
         if (file.isBuffer()) {
             var cssText = String(file.contents);
             var srcPath = String(file.path);
-            new CssConcat().concatByStr(cssText, srcPath, function(concatText, error) {
+            new CssConcat().concatByFile(srcPath, srcPath, function(concatText, error) {
                 if(error) {
-                    self.emit(new PluginError(PLUGIN_NAME, error.message));
+                    self.emit('error', new PluginError(PLUGIN_NAME, error.message));
                 } else {
                     file.contents = new Buffer(concatText);
                 }

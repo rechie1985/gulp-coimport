@@ -2,6 +2,40 @@ var path = require('path');
 var fs = require('fs');
 var http = require('http');
 
+
+var _ = {
+    // 已加载的模块列表
+    /**
+     * 获取绝对目录地址
+     * @param  {String} dir 相对地址或绝对地址
+     * @return {String}     绝对地址
+     */
+    getFullPath: function(dir) {
+        return path.resolve(process.cwd(), dir);
+    },
+    /**
+     * 参考coimport uniform
+     * @param  {String} css
+     * @return {String}
+     */
+    uniform: function(css) {
+        // uniform @import
+        css = css
+            .replace(/@import\s+url\(\s*"([^"]+)"\s*\)\s*;/g, '@import "$1";')
+            .replace(/@import\s+url\(\s*\'([^\']+)\'\s*\)\s*;/g, '@import "$1";')
+            .replace(/@import\s+url\(\s*([\S^\)]+)\s*\)\s*;/g, '@import "$1";')
+            .replace(/@import\s*"([^"]+)"\s*;/g, '@import "$1";')
+            .replace(/@import\s*\'([^\']+)\'\s*;/g, '@import "$1";');
+        // uniform url()
+        css = css
+            .replace(/url\(\s*"([^"]+)"\s*\)/g, 'url($1)')
+            .replace(/url\(\s*\'([^\']+)\'\s*\)/g, 'url($1)')
+            .replace(/url\(\s*([\S^\)]+)\s*\)/g, 'url($1)');
+
+        return css;
+    }
+};
+
 /**
  * 线上文件控制类
  * @type {Object}
@@ -63,43 +97,11 @@ var OnlineFile = {
 }
 
 
-var _ = {
-    // 已加载的模块列表
-    /**
-     * 获取绝对目录地址
-     * @param  {String} dir 相对地址或绝对地址
-     * @return {String}     绝对地址
-     */
-    getFullPath: function(dir) {
-        return path.resolve(process.cwd(), dir);
-    },
-    /**
-     * 参考coimport uniform
-     * @param  {String} css
-     * @return {String}
-     */
-    uniform: function(css) {
-        // uniform @import
-        css = css
-            .replace(/@import\s+url\(\s*"([^"]+)"\s*\)\s*;/g, '@import "$1";')
-            .replace(/@import\s+url\(\s*\'([^\']+)\'\s*\)\s*;/g, '@import "$1";')
-            .replace(/@import\s+url\(\s*([\S^\)]+)\s*\)\s*;/g, '@import "$1";')
-            .replace(/@import\s*"([^"]+)"\s*;/g, '@import "$1";')
-            .replace(/@import\s*\'([^\']+)\'\s*;/g, '@import "$1";');
-        // uniform url()
-        css = css
-            .replace(/url\(\s*"([^"]+)"\s*\)/g, 'url($1)')
-            .replace(/url\(\s*\'([^\']+)\'\s*\)/g, 'url($1)')
-            .replace(/url\(\s*([\S^\)]+)\s*\)/g, 'url($1)');
-
-        return css;
-    }
-};
-
 // 不能使用静态类，多文件操作时，会共用内部的pathCacheList和cssText;
 var CssConcat = function() {
     // 初始化时，将OnlineFile的计数器归零，获取的内容可保留，防止多次下载相同文件
     OnlineFile.resetCount();
+    var _timeId = null;
     // 成功后的回调函数
     var successCallback,
         pathCacheList = [],
@@ -143,11 +145,9 @@ var CssConcat = function() {
                     // 在线文件，先从线上拉取下来缓存，最后阶段再替换
                     OnlineFile.load(b, function(key, text, error) {
                         if(error) {
-                            successCallback(null, error);
-                            return ;
+                            throw error;
                         }
                         OnlineFile.restore(key, text);
-                        check();
                     });
                     return a;
                 } else {
@@ -163,19 +163,6 @@ var CssConcat = function() {
             return getFileStr(innerPath);
         });
         return cssText;
-    }
-    /**
-     * 最终的检测函数
-     * 检测在线文件是否完全加载完，如果都加载完，执行替换并完成
-     * @return {[type]} [description]
-     */
-    function check() {
-        if (OnlineFile.isAllLoaded()) {
-            cssText = replaceOnlineFile(cssText);
-            if(typeof successCallback === 'function') {
-                successCallback(cssText);
-            }
-        }
     }
     /**
      * 替换在线文件并写入到最终文件中
@@ -195,9 +182,8 @@ var CssConcat = function() {
      * @return {}
      */
     function startByFile(srcPath, distPath, callback) {
-        successCallback = callback;
         cssText = getFileStr(srcPath);
-        CssConcat.check();
+        check(callback);
     }
     /**
      * 开放接口，通过cssText来合并css
@@ -206,15 +192,36 @@ var CssConcat = function() {
      * @param  {Function} distPath 合并成功后的回调
      * @return {}
      */
-    function startByStr(str, filepath, callback) {
-        successCallback = callback;
-        // 
-        if (filepath) {
-            var dirname = path.dirname(filepath);
-            pathCacheList.push(filepath);
+    function startByStr(str, srcPath, callback) {
+        if (srcPath) {
+            var dirname = path.dirname(srcPath);
+            pathCacheList.push(srcPath);
         }
         cssText = resolveStr(str, dirname);
-        check();
+        check(callback);
+    }
+
+    /**
+     * 最终的检测函数
+     * 检测在线文件是否完全加载完，如果都加载完，执行替换并完成
+     * @return {[type]} [description]
+     */
+    function check(callback) {
+        if (OnlineFile.isAllLoaded()) {
+            cssText = replaceOnlineFile(cssText);
+            if(typeof callback === 'function') {
+                callback(cssText);
+            }
+            clearInterval(_timeId);
+            _timeId = null;
+            cssText = '';
+        } else {
+            if(_timeId === null) {
+                _timeId = setInterval(function() {
+                    check(callback);
+                }, 200);
+            }
+        }
     }
 
     // 对外接口

@@ -43,4 +43,8 @@ Temporary Items
 .apdisk
 .idea
 node_modules
-test/dist/*.css
+test/dist/
+test/dist/b.css
+test/dist/d.css
+test/dist/a_out.css
+test/dist/a.css
