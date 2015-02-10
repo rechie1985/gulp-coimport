@@ -98,6 +98,9 @@ var OnlineFile = {
 
 
 // 不能使用静态类，多文件操作时，会共用内部的pathCacheList和cssText;
+/**
+ * 合并功能类
+ */
 var CssConcat = function() {
     // 初始化时，将OnlineFile的计数器归零，获取的内容可保留，防止多次下载相同文件
     OnlineFile.resetCount();
@@ -107,8 +110,8 @@ var CssConcat = function() {
         cssText = '';
     /**
      * 获取文件的内容，如有@import会递归
-     * @param  {[type]} cssPath [description]
-     * @return {[type]}         [description]
+     * @param  {String} cssPath 目标文件地址
+     * @return {String}         所有关联的文件内容，不包括线上文件
      */
     function getFileStr(cssPath) {
         var dirname = path.dirname(cssPath);
@@ -130,9 +133,9 @@ var CssConcat = function() {
     /**
      * 分析cssText，如有import则解析出filepath，并通过getFileStr获取内容
      * 如有在线文件，通过OnlineFile类来操作
-     * @param  {[type]} cssText  [description]
-     * @param  {[type]} dirname [description]
-     * @return {[type]}         [description]
+     * @param  {String} cssText css文件内容字符串
+     * @param  {String} dirname 目录地址
+     * @return {String}         合并后的文件内容，不包括线上文件
      */
     function resolveStr(cssText, dirname) {
         dirname = dirname || '';
@@ -165,7 +168,8 @@ var CssConcat = function() {
     }
     /**
      * 替换在线文件并写入到最终文件中
-     * @return {[type]}         [description]
+     * @param  {String} cssText css文件内容字符串
+     * @return {String}         合并后的文件内容，包括线上文件
      */
     function replaceOnlineFile(cssText) {
         cssText = cssText.replace(/@import\s*"([^"]+)"\s*;/g, function(a, b) {
@@ -203,7 +207,8 @@ var CssConcat = function() {
     /**
      * 最终的检测函数
      * 检测在线文件是否完全加载完，如果都加载完，执行替换并完成
-     * @return {[type]} [description]
+     * @param  {Function} callback 合并完成后的回调函数
+     * @return {}            
      */
     function check(callback) {
         if (OnlineFile.isAllLoaded()) {
