@@ -3,6 +3,10 @@ var fs = require('fs');
 var http = require('http');
 
 
+/**
+ * 内部util类
+ * @namespace
+ */
 var _ = {
     // 已加载的模块列表
     /**
@@ -38,25 +42,49 @@ var _ = {
 
 /**
  * 线上文件控制类
- * @type {Object}
+ * @namespace
  */
 var OnlineFile = {
     length: 0,
     loadedLength: 0,
     onlineCacheMap: {},
+    /**
+     * 缓存对应的线上文件内容
+     * @param  {String} key  线上文件地址
+     * @param  {String} text 线上文件内容
+     * @return {}      
+     */
     restore: function(key, text) {
         this.loadedLength += 1;
         this.onlineCacheMap[key] = text;
     },
+    /**
+     * 通过地址获取缓存的内容
+     * @param  {String} key 线上文件地址
+     * @return {String}     线上文件内容，如果没有，则返回undefined
+     */
     get: function(key) {
         return this.onlineCacheMap[key];
     },
+    /**
+     * 判断全部线上文件是否已经都获取到
+     * @return {Boolean} 
+     */
     isAllLoaded: function() {
         return this.length === this.loadedLength;
     },
+    /**
+     * 判断线上文件是否已经缓存
+     * @param  {String}  key 线上文件地址
+     * @return {Boolean}     
+     */
     isRestore: function(key) {
         return !!this.get(key);
     },
+    /**
+     * 重置计数，每次new CssConcat的时候，需要调用该函数
+     * @return {} 
+     */
     resetCount: function() {
         OnlineFile.length = 0;
         OnlineFile.loadedLength = 0;
@@ -100,6 +128,7 @@ var OnlineFile = {
 // 不能使用静态类，多文件操作时，会共用内部的pathCacheList和cssText;
 /**
  * 合并功能类
+ * @constructor
  */
 var CssConcat = function() {
     // 初始化时，将OnlineFile的计数器归零，获取的内容可保留，防止多次下载相同文件
